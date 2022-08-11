@@ -44,6 +44,7 @@ const pi2 = (function () {
     this.y = config.y || 0;
     this.z = config.z || 0;
     this.radius = config.radius || 20;
+    this.path = config.path || 'M 100,100 h 50 v 50 h 50';
     this.color = config.color || '#FF8888';
     this.vel = config.vel || new Vector(0, 0);
     this.isCheckBorders = (config.isCheckBorders === false) ? false : true;
@@ -93,6 +94,15 @@ const pi2 = (function () {
     if (Math.abs(this.vel.y) <= 0.1) this.vel.y = 0;
   }
 
+  // var img = new Image();
+  // img.onload = function() {
+  //   ctx.drawImage(img, 0, 0);
+  // }
+  // img.src = "http://upload.wikimedia.org/wikipedia/commons/d/d2/Svg_example_square.svg";
+
+  //var path = new Path2D('M 100,100 h 50 v 50 h 50');
+  //ctx.stroke(path);
+
   Circle.prototype.draw = function () {
     context.beginPath();
     let drawMethodName = 'fill';
@@ -101,6 +111,8 @@ const pi2 = (function () {
       context.strokeStyle = this.color;
       drawMethodName = 'stroke';
     } else context.fillStyle = this.color;
+
+    var path = new Path2D(this.path);
 
     context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
     context[drawMethodName]();
@@ -211,7 +223,6 @@ const pi2 = (function () {
             if (pi2['onCollision']) pi2.onCollision(circle1, circle2);
 
             if (!circle2.isRigidBody) continue;
-
 
             // uncomment to see the vector of intersection
             // line(circle1.x, circle1.y, circle2.x, circle2.y);  
@@ -390,6 +401,7 @@ const pi2 = (function () {
           y: config.y,
           z: config.z,
           radius: config.radius,
+          path: config.path,
           color: config.color,
           vel: config.vel,
           isCheckBorders: config.isCheckBorders,
